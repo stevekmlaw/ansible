@@ -1,5 +1,5 @@
 aws_region: ap-southeast-2
 instance_type: t2.micro
 ami_id: ami-020e2d6e7640876e9  # Amazon Linux 2 in us-east-1 (verify this is current)
-key_name: ansible_key.pem    # Replace with your key pair name
+key_name: ansible_key # Replace with your key pair name
 security_group_name: ansible-lab-sg
