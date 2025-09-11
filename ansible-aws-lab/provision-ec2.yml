@@ -33,12 +33,14 @@
         region: "{{ aws_region }}"
         wait: yes
         exact_count: 1
-        count_tag:
-          Name: "ansible-lab-instance"
-        instance_tags:
+        filters:  # Replaces count_tag
+          tag:Name: "ansible-lab-instance"
+        tags:  # Replaces instance_tags
           Name: "ansible-lab-instance"
           Environment: Lab
           ManagedBy: Ansible
+        network:
+          assign_public_ip: true  # Important: Ensure instance gets public IP
       register: ec2
 
     - name: Add new instance to host group
