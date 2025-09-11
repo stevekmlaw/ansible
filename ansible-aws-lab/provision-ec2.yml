@@ -1,0 +1,91 @@
+- name: Provision EC2 Instance with Security Group
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  tasks:
+    - name: Create security group
+      amazon.aws.ec2_security_group:
+        name: "{{ security_group_name }}"
+        description: Security group for Ansible lab
+        region: "{{ aws_region }}"
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+        tags:
+          Name: "{{ security_group_name }}"
+          Environment: Lab
+      register: security_group
+
+    - name: Launch EC2 instance
+      amazon.aws.ec2_instance:
+        name: "ansible-lab-instance"
+        key_name: "{{ key_name }}"
+        instance_type: "{{ instance_type }}"
+        security_groups: ["{{ security_group_name }}"]
+        image_id: "{{ ami_id }}"
+        region: "{{ aws_region }}"
+        wait: yes
+        exact_count: 1
+        count_tag:
+          Name: "ansible-lab-instance"
+        instance_tags:
+          Name: "ansible-lab-instance"
+          Environment: Lab
+          ManagedBy: Ansible
+      register: ec2
+
+    - name: Add new instance to host group
+      add_host:
+        hostname: "{{ item.public_ip_address }}"
+        groupname: launched
+      loop: "{{ ec2.instances }}"
+
+    - name: Wait for SSH to be available
+      wait_for_connection:
+        delay: 10
+        timeout: 300
+
+- name: Configure the newly created EC2 instance
+  hosts: launched
+  become: yes
+  
+  tasks:
+    - name: Update package cache
+      yum:
+        update_cache: yes
+
+    - name: Install Nginx
+      yum:
+        name: nginx
+        state: present
+
+    - name: Start and enable Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create a simple index.html
+      copy:
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Ansible AWS Lab</title>
+          </head>
+          <body>
+              <h1>Hello from Ansible-managed EC2 instance!</h1>
+              <p>Instance ID: {{ ansible_hostname }}</p>
+          </body>
+          </html>
+        dest: /usr/share/nginx/html/index.html
+        owner: root
+        group: root
+        mode: '0644'
