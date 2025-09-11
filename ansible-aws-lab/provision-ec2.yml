@@ -49,16 +49,16 @@
         groupname: launched
       loop: "{{ ec2.instances }}"
 
-    - name: Wait for SSH to be available
-      wait_for_connection:
-        delay: 10
-        timeout: 300
-
 - name: Configure the newly created EC2 instance
   hosts: launched
   become: yes
   
   tasks:
+    - name: Wait for SSH to be available
+      wait_for_connection:
+        delay: 10
+        timeout: 300
+
     - name: Update package cache
       yum:
         update_cache: yes
