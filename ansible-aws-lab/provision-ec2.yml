@@ -34,9 +34,9 @@
         wait: yes
         exact_count: 1
         filters:  # Replaces count_tag
-          tag:Name: "ansible-lab-instance"
+          tag:Name: "ansible-lab-instance-1"
         tags:  # Replaces instance_tags
-          Name: "ansible-lab-instance"
+          Name: "ansible-lab-instance-1"
           Environment: Lab
           ManagedBy: Ansible
         network:
