@@ -42,14 +42,11 @@
         network:
           assign_public_ip: true  # Important: Ensure instance gets public IP
       register: ec2
-
+      
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip_address }}"
         groupname: launched
-        ansible_connection: ssh
-        ansible_user: ec2-user
-        ansible_ssh_private_key_file: "~/.ssh/ansible_key.pem"
       loop: "{{ ec2.instances }}"
 
 - name: Configure the newly created EC2 instance
