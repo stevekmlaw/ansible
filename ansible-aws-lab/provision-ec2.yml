@@ -51,6 +51,7 @@
         ansible_user: ec2-user
         ansible_ssh_private_key_file: "~/.ssh/ansible_key.pem"
       loop: "{{ ec2.instances }}"
+      when: ec2.instances is defined and ec2.instances | length > 0
 
 - name: Configure the newly created EC2 instance
   hosts: launched
@@ -94,3 +95,8 @@
         owner: root
         group: root
         mode: '0644'
+    
+    - name: Update system
+      yum:
+        name: "*"
+        state: latest
