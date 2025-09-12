@@ -1,4 +1,4 @@
-plugin: amazon.aws.ec2
+plugin: amazon.aws.aws_ec2
 regions:
   - ap-southeast-2  # Change to your region
 filters:
