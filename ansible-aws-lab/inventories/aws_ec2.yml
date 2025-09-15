@@ -1,19 +1,9 @@
 plugin: aws_ec2
 regions:
-  - ap-southeast-2  # Change to your region
-filters:
-  tag:ManagedBy: Ansible  # Filter by your tag
-hostnames:
-  - public-ip-address  # Use public IP for connectivity
-  - private-ip-address  # Fallback to private IP
-  - dns-name  # Fallback to DNS name
+  - ap-southeast-2
+hostnames: tag:Name
 keyed_groups:
-  - key: tags.Environment
-    prefix: env_
-  - key: tags.ManagedBy
-    prefix: managed_by_
-  - key: tags.Name
-    prefix: name_
-compose:
-  ansible_user: "ec2-user"  # Default user
-  ansible_ssh_private_key_file: "/home/ec2-user/.ssh/ansible_key.pem"
+  - key: tags['Environment']
+    prefix: env
+  - key: tags['Role']
+    prefix: role
