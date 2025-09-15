@@ -7,3 +7,5 @@ keyed_groups:
     prefix: env
   - key: tags['Role']
     prefix: role
+compose:
+  ansible_host: public-dns-name  # NEW: Explicitly set ansible_host variable
