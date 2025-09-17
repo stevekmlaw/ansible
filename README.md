@@ -10,7 +10,7 @@
 
  # Ping the listed host
 
-  ## Start SSH agent and add your key
+## Start SSH agent and add your key
 eval $(ssh-agent -s)
 ssh-add ~/.ssh/ansible_key.pem
 
@@ -19,5 +19,9 @@ ssh-add -L
 
 ## Now it should work
 ansible -i inventories/aws_ec2.yml Ansible -m ping
+
+# Run playbook on particular host got from the dynamic host
+
+ansible-playbook -i inventories/aws_ec2.yml copy-file.yml --limit "Ansible"
 
   
