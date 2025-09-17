@@ -1,0 +1,18 @@
+---
+- name: Copy file to remote host
+  hosts: all  # or use specific group like 'env_SIT' or hostname 'ansible-lab-instance-1'
+  become: yes  # use sudo if needed
+  tasks:
+    - name: Ensure directory exists
+      file:
+        path: /tmp/ansible_files
+        state: directory
+        mode: '0755'
+
+    - name: Copy local file to remote host
+      copy:
+        src: files/example.txt  # local file path
+        dest: /tmp/ansible_files/example.txt
+        owner: ec2-user
+        group: ec2-user
+        mode: '0644'
