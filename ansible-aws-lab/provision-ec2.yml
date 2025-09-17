@@ -84,7 +84,7 @@
           <!DOCTYPE html>
           <html>
           <head>
-              <title>Ansible AWS Lab</title>
+              <title>Ansible AWS Lab 1</title>
           </head>
           <body>
               <h1>Hello from Ansible-managed EC2 instance!</h1>
