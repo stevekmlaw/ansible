@@ -1,4 +1,4 @@
-Show dynamic inventory
+# Show dynamic inventory
 
 [ec2-user@ip-172-31-47-39 ansible-aws-lab]$ ansible-inventory -i inventories/aws_ec2.yml --graph
 @all:
@@ -8,7 +8,7 @@ Show dynamic inventory
   |--@env_SIT:
   |  |--Ansible
 
-Ping the listed host
+ # Ping the listed host
 
   # Start SSH agent and add your key
 eval $(ssh-agent -s)
