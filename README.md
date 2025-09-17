@@ -10,14 +10,14 @@
 
  # Ping the listed host
 
-  # Start SSH agent and add your key
+  ## Start SSH agent and add your key
 eval $(ssh-agent -s)
 ssh-add ~/.ssh/ansible_key.pem
 
-# Verify key is added
+## Verify key is added
 ssh-add -L
 
-# Now it should work
+## Now it should work
 ansible -i inventories/aws_ec2.yml Ansible -m ping
 
   
