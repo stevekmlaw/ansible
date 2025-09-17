@@ -10,3 +10,4 @@ keyed_groups:
 compose:
   ansible_host: private_dns_name # NEW: Explicitly set ansible_host variable
   ansible_ssh_private_key_file: ~/.ssh/ansible_key.pem  # Specify the key path
+  ansible_user: ec2-user
